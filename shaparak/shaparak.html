@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>
+    صفحه شاپک پرداخت
+  </title>
+</head>
+
+<body style="text-align:center;">
+<h1>
+  صفحه پرداخت
+</h1>
+<div>
+  <img src="./shaparak.jpg" >
+  <div style='
+            width: fit-content;
+            position: absolute;
+            bottom: 80px;
+            right: 402px;
+            display: flex;
+            flex-direction: column;
+        '>
+    <div style="display: flex ;  position: absolute ; top:-11.8rem; right:1rem " >
+      <button style="width: 100px;padding: 6px;color: white;background: darkred;cursor: pointer;border-radius: 5px;margin: 2.5px; outline: none; border:none" id="notBuy">انصراف</button>
+    
+      <button style="width: 100px;padding: 6px;color: white;background: darkgreen;cursor: pointer;border-radius: 5px;margin: 2.5px; outline: none; border:none" id="buy">پرداخت</button>
+    </div>  
+  </div>
+</div>
+<script>
+  document.querySelector('#buy').addEventListener('click',function(e){
+    window.location.href = 'http://localhost:3000/success-payment-result'
+  })
+  document.querySelector('#notBuy').addEventListener('click',function(e){
+    window.location.href = 'http://localhost:3000/failed-payment-result'
+  })
+</script>
+</body>
+
+</html>
