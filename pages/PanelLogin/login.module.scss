@@ -1,0 +1,109 @@
+.loginPage{
+  width: 80%;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 16rem;
+}
+
+.mainForm{
+  padding: 5rem;
+  border: 2px solid rgb(224, 221, 221);
+  width: 40%;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (max-width: 860px) {
+  .mainForm{
+    width: auto;
+  }
+}
+
+.userIcon{
+  background-color: rgb(233, 187, 187);
+  transform: translate(0 , 4rem);
+  border-radius: 50%;
+  padding: 3px;
+  border: 2px solid rgb(173, 170, 170);
+}
+.headerLogin{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: 2rem;
+  font-family: AMitra;
+  line-height: 150%;
+  text-align: center;
+}
+
+.button , .loginInput{
+  border: 1px solid transparent;
+  width: 100%;
+  padding: 1.2rem 7.3rem;
+  background-color: rgb(233, 187, 187);
+  outline: none;
+  border-radius: 0.7rem;
+  color: white;
+  font-size: 2rem;
+}
+.groupBtn{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8rem;
+}
+.RETbutton, .button{
+  background-color: rgb(187, 234, 176);
+  padding: 0!important;
+  color: #1f1212;
+  width: 150px !important;
+  height: 50px !important;
+  border: none;
+  border-radius: 8px;
+  line-height: 25px;
+  text-align: center;
+  font-size: 16px;
+}
+.RETbutton{
+  background-color: rgb(233, 177, 177) !important;
+  cursor: pointer;
+}
+.loginInput{
+  padding: 1.2rem;
+  background-color: #ececec;
+  direction: rtl;
+  color:black;
+}
+
+.loginInput:focus{
+  background-color: white;
+  border: 1px solid lightgray;
+}
+
+.loginLabels{
+  font-size: 1.2rem;
+  text-align: end;
+}
+
+.button{
+  cursor: pointer;
+}
+
+.inputMargin{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+
+
+.errors{
+  background-color: rgb(250, 205, 146)!important;
+  color:black!important;
+}
