@@ -1,10 +1,19 @@
 import { useEffect, useState } from 'react';
-import { Grid, Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper} from '@material-ui/core';
-import { Link } from "react-router-dom"
+import{
+    Grid,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper
+} from '@material-ui/core';
+import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import {Pagination, PaginationItem} from '@material-ui/lab';
-import {e2p} from "../../../utils/LanguageNumberConvertor.utils";
-import {getOrders} from "../../../api/orders.api"
+import {e2p} from "utils/LanguageNumberConvertor.utils";
+import { getOrders } from "api/orders.api";
 
 const useStyles = makeStyles({
   container: {

@@ -2,7 +2,7 @@ import {useState, useEffect} from "react"
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {debounce} from 'lodash';
 import TextField from '@material-ui/core/TextField';
-import {getProducts} from "../../api/products.api"
+import {getProducts} from "api/products.api"
 import styles from "./SearchInput.module.scss"
 
 const SearchInput = () =>{
@@ -35,10 +35,11 @@ const SearchInput = () =>{
                 onChange={onAutoCompleteChangeHandler}
                 onInputChange={onAutoCompleteInputHandler}
                 id="search-input"
+                className={styles.txtLine}
                 options={state.options}
                 getOptionLabel={(option) => option.name}
-                style={{ width: 400, marginTop:30 , direction:'rtl' }}
-                renderInput={(params) => <TextField placeholder="جستجوی محصولات" {...params} variant="outlined" />}
+                style={{ width: 400 , direction:'rtl' }}
+                renderInput={ (params) => <TextField className={styles.txtField} placeholder="جستجو شیرینی"   {...params}  />}
             />
         </div>
 

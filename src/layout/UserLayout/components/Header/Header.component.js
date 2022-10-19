@@ -3,10 +3,10 @@ import {AppBar, makeStyles, Toolbar, Typography , Badge} from "@material-ui/core
 import {connect} from "react-redux"
 import {Link} from 'react-router-dom';
 import {LocalMall, ShoppingBasket} from "@material-ui/icons";
-import { cartSelector } from "../../../../redux/selects/user.select"
-import {e2p} from "../../../../utils/LanguageNumberConvertor.utils"
+import { cartSelector } from "redux/selects/user.select"
+import {e2p} from "utils/LanguageNumberConvertor.utils"
 import {LINKS} from './Header.config';
-import {Navigation} from 'components';
+import { Navigation, SearchInput } from "components";
 import {PATHS} from 'configs/routes.config';
 import { removeFromCart } from "redux/actions/card.action";
 import logo from "assets/logo.png";
@@ -49,35 +49,42 @@ const useStyle = makeStyles((theme) => ({
 
 const HeaderLayout = (props) => {
     const classes = useStyle()
-    return(
-        <>
-            <AppBar>
-                <Toolbar className={classes.toolbar}>
-                    <div className={classes.rightSide}>
-                        <img src={logo} className={classes.image} />
-                        <Link to={PATHS.HOME}>
-                            <Typography className={classes.title} variant="h6" noWrap>
-                               آنلاین شاپ
-                            </Typography>
-                        </Link>
-                    </div>
-
-                    <div className={classes.leftSide}>
-                        <Navigation className={{navClass: classes.navigation}} links={LINKS}/>
-                        <Badge className={classes.icon} anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}
-                               badgeContent={e2p(''+props.userCart.reduce((acc,cv)=>acc+cv.count, 0))}
-                               color="secondary">
-                            <ShoppingBasket />
-                        </Badge>
-                    </div>
-
-                </Toolbar>
-            </AppBar>
-        </>
-    )
+    return (
+      <>
+        <AppBar>
+          <Toolbar className={classes.toolbar}>
+            <div className={classes.rightSide}>
+              <img src={logo} className={classes.image} />
+              <Link to={PATHS.HOME}>
+                <Typography className={classes.title} variant="h6" noWrap>
+                  کیک کــــافه
+                </Typography>
+              </Link>
+            </div>
+            <SearchInput />
+            <div className={classes.leftSide}>
+              <Navigation
+                className={{ navClass: classes.navigation }}
+                links={LINKS}
+              />
+              <Badge
+                className={classes.icon}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                badgeContent={e2p(
+                  "" + props.userCart.reduce((acc, cv) => acc + cv.count, 0)
+                )}
+                color="secondary"
+              >
+                <ShoppingBasket />
+              </Badge>
+            </div>
+          </Toolbar>
+        </AppBar>
+      </>
+    );
 }
 
 const mapStateToProps = (state) => ({userCart:cartSelector(state)})

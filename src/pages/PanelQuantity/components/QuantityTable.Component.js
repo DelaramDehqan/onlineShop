@@ -3,7 +3,7 @@ import { Grid, Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper
 import { Link } from "react-router-dom"
 import { makeStyles } from '@material-ui/core/styles';
 import {Pagination, PaginationItem} from '@material-ui/lab';
-import {getProducts} from "../../../api/products.api"
+import {getProducts} from "api/products.api"
 import {ProductInput} from "./ProductInput.Component";
 
 const useStyles = makeStyles({

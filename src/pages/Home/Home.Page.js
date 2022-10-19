@@ -1,20 +1,22 @@
-import React from 'react'
-import { Fragment } from "react"
-import {useEffect, useState} from "react"
-import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
-import { Grid, makeStyles } from "@material-ui/core"
-import {Helmet} from 'react-helmet'
-import {e2p} from "../../utils/LanguageNumberConvertor.utils"
-import {getGroup} from "../../api/groups.api"
-import {getProducts} from "../../api/products.api"
-import {numberWithCommas} from "../../utils/numberWithCommas.utils"
-import {Spinner, ProductCard , SearchInput} from "../../components"
-import {UserLayout} from "../../layout";
+//package
+import { Helmet } from "react-helmet";
+import { Grid, makeStyles } from "@material-ui/core";
+import ArrowLeftIcon from "@material-ui/icons/ArrowLeft";
+import React,{ Fragment, useEffect, useState } from "react";
 
+//components
+import { UserLayout } from "layout";
+import { getGroup } from "api/groups.api";
+import { getProducts } from "api/products.api";
+import { Spinner, ProductCard, Banner } from "components";
+import { e2p } from "utils/LanguageNumberConvertor.utils";
+import { numberWithCommas } from "utils/numberWithCommas.utils";
+
+//style
 const useStyles = makeStyles((theme) => ({
     groupTitle:{
         paddingRight: theme.spacing(8),
-        paddingTop: theme.spacing(5),
+        paddingTop: theme.spacing(1),
         cursor:'pointer',
         display:'flex',
         alignItems: 'center',
@@ -51,44 +53,68 @@ const Home = (props)=>{
     }, [])
 
     const pageContent = (<Grid container className={classes.productsContainer}>
-        <SearchInput />
+        
         {
             productsState.products.map(product=>{
                 const {name:groupName, id:groupId} = product.group
                 const groupLink = `/products/group/${groupId}/${groupName.trim().replaceAll(' ', '-')}`
                 return (
+                  <>
+                    <Banner />
                     <Fragment key={product.group.id}>
-                        <Grid style={{display: 'flex', justifyContent: 'flex-end'}} item xs={12}>
-                            <h2 className={classes.groupTitle} dir="rtl" onClick={()=>{props.history.push(groupLink)}}>
-                                <a href={groupLink} className={classes.anchorGroupTitle} onClick={event=>event.stopPropagation()}>{product.group.name}</a>
-                                <ArrowLeftIcon className={classes.groupArrow}/>
-                            </h2>
-                        </Grid>
-                        {product.products.map(prod=>{
+                      <Grid
+                        style={{ display: "flex", justifyContent: "flex-end" }}
+                        item
+                        xs={12}
+                      >
+                        <h2
+                          className={classes.groupTitle}
+                          dir="rtl"
+                          onClick={() => {
+                            props.history.push(groupLink);
+                          }}
+                        >
+                          <a
+                            href={groupLink}
+                            className={classes.anchorGroupTitle}
+                            onClick={(event) => event.stopPropagation()}
+                          >
+                            {product.group.name}
+                          </a>
+                          <ArrowLeftIcon className={classes.groupArrow} />
+                        </h2>
+                      </Grid>
 
-                            const {name, image, id, price} = prod
-                            return (
-                                <ProductCard key={prod.id} name={name} price={e2p(numberWithCommas(price))} image={image} url={`/product/${id}`}/>
-                            )
-                        })}
+                      {product.products.map((prod) => {
+                        const { name, image, id, price } = prod;
+                        return (
+                          <ProductCard
+                            key={prod.id}
+                            name={name}
+                            price={e2p(numberWithCommas(price))}
+                            image={image}
+                            url={`/product/${id}`}
+                          />
+                        );
+                      })}
                     </Fragment>
-
-                )
+                  </>
+                );
             })
         }
 
     </Grid>)
 
-    return(
-        <>
-            <Helmet>
-                <title>صفحه اصلی</title>
-            </Helmet>
-            <UserLayout>
-                <Spinner isLoading={loading.show} content={pageContent} />
-            </UserLayout>
-        </>
-    )
+    return (
+      <>
+        <Helmet>
+          <title> ✨خــانه</title>
+        </Helmet>
+        <UserLayout>
+          <Spinner isLoading={loading.show} content={pageContent} />
+        </UserLayout>
+      </>
+    );
 }
 
 export {Home}

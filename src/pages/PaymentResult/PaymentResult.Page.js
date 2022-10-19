@@ -1,5 +1,5 @@
 import {useRef , useState} from "react";
-import {postProduct} from "../../api/products.api"
+import {postProduct} from "api/products.api"
 import http from 'services/http.service';
 
 const PaymentResult = () =>{

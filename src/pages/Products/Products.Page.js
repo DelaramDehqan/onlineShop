@@ -1,23 +1,27 @@
-import React from 'react'
-import {useEffect, useState} from "react"
-import {Grid , makeStyles, Typography} from "@material-ui/core"
-import {Helmet} from "react-helmet";
-import {Link} from "react-router-dom";
-import {Pagination, PaginationItem} from "@material-ui/lab";
-import {e2p} from "../../utils/LanguageNumberConvertor.utils"
-import {getGroup} from "../../api/groups.api"
-import {getProducts} from "../../api/products.api"
-import {numberWithCommas} from "../../utils/numberWithCommas.utils"
-import {Sidebar, ProductCard , Spinner} from "../../components"
-import {UserLayout} from "../../layout";
+//package
+import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
+import { React, useEffect, useState } from "react";
+import { Pagination, PaginationItem } from "@material-ui/lab";
+import { Grid, makeStyles, Typography } from "@material-ui/core";
 
+//components
+import { UserLayout } from "layout";
+import { getGroup } from "api/groups.api";
+import { getProducts } from "api/products.api";
+import { e2p } from "utils/LanguageNumberConvertor.utils";
+import { Sidebar, ProductCard, Spinner } from "components";
+import { numberWithCommas } from "utils/numberWithCommas.utils";
+
+//style
 const useStyles = makeStyles((theme) => ({
     asideContainer:{
         height:'100vh',
         boxSizing: 'border-box',
     },
     productGroupTitle:{
-        textAlign:'right',
+        textAlign: 'right',
+        fontFamily: 'AMitra',
         marginTop:theme.spacing(7),
         marginRight:theme.spacing(3),
         color:'var(--russian-violet)'
@@ -30,6 +34,12 @@ const useStyles = makeStyles((theme) => ({
     },
     mainContent:{
         borderRight: '1px solid var(--lavender-floral)',
+    },
+    pagin: {
+        fontFamily: 'AMitra',
+        fontSize: '18',
+        fontWeight: '10',
+        dir: 'rtl'
     }
 }));
 
@@ -97,7 +107,9 @@ const Products = (props) =>{
     const pageContent = (
         <div style={{display:'flex', }}>
             <Grid item lg={10} md={9} sm ={8} xs={8} className={classes.mainContent}>
-                <Typography variant="h4" component="h1" className={classes.productGroupTitle}>{props.params.groupName.replaceAll('-', ' ')}</Typography>
+                <Typography variant="h1" component="h1" className={ classes.productGroupTitle }>
+                    { props.params.groupName.replaceAll('-', ' ') }
+                </Typography>
                 <div className={classes.productsContainer}>
                     {productsState.products.map((prod, index)=>{
                         const {name, image, id, price} = prod
@@ -114,7 +126,7 @@ const Products = (props) =>{
     return (
         <div>
             <Helmet>
-                <title>دسته های کالا</title>
+                <title>طبقـه بندی  محصولات</title>
             </Helmet>
             <UserLayout>
                 <Spinner isLoading={loading.show} content={pageContent} />
@@ -128,6 +140,7 @@ const Products = (props) =>{
                     onChange={handleChange}
                     renderItem={(item) => (
                         <PaginationItem
+                            className={classes.pagin}
                             component={Link}
                             to={`?page=${item.page}`}
                             {...item}

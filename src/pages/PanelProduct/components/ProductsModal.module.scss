@@ -33,7 +33,7 @@
 }
 
 .upload_button:hover {
-  background-color: #bbb;
+  background-color: rgb(175, 160, 160);
 }
 
 .upload_button:active {
@@ -46,9 +46,9 @@
 }
 
 .input_file_label:hover {
-  border: 1px solid rgba(0, 0, 0, 0.87);
+  border: 1px solid rgba(74, 56, 56, 0.87);
 }
 
 .input_file_label:focus {
-  border: 1px solid rgba(234, 90, 131, 0.87);
+  border: 1px solid rgba(100, 60, 71, 0.87);
 }

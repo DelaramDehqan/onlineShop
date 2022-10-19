@@ -1,15 +1,18 @@
-import React from 'react'
-import {useState} from "react"
-import {connect} from "react-redux"
+//package
+import { Helmet } from "react-helmet";
+import React,{ useState } from "react";
+import { connect } from "react-redux";
+import { toast } from "react-toastify";
+import { TextField, Grid } from "@material-ui/core";
 import { DatePicker } from "jalali-react-datepicker";
 import { makeStyles } from '@material-ui/core/styles';
-import {TextField, Grid} from "@material-ui/core"
-import {toast} from "react-toastify";
-import { cartSelector } from "../../redux/selects/user.select"
-import {postOrder} from "../../api/orders.api"
-import {UserLayout} from "../../layout";
-import {Helmet} from "react-helmet";
 
+//components
+import { UserLayout } from "layout";
+import {postOrder} from "api/orders.api"
+import { cartSelector } from "redux/selects/user.select";
+
+//style
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
@@ -122,7 +125,7 @@ const CheckoutPage = (props) =>{
                 })
                 const { data:{id:orderId} } = response
                 localStorage.setItem('orderId',orderId)
-                window.location.href=`http://127.0.0.1:5500/shaparak.html`
+                window.location.href = `http://127.0.0.1:5500/shaparak/shaparak.html`;
                 setState({
                     name:'', familyName:'', address:'', phone:'', deliveryTime:'',
                 })
@@ -145,72 +148,97 @@ const CheckoutPage = (props) =>{
     const { name, familyName, address, phone, deliveryTime } = state
 
     return (
+      <>
+        <Helmet>
+          <title>بررسی نهایی ⚫</title>
+        </Helmet>
 
-        <>
-            <Helmet>
-                <title>بررسی نهایی</title>
-            </Helmet>
+        <UserLayout>
+          <form onSubmit={submitHandler}>
+            <div className={classes.container}>
+              <Grid xs={2} xl={6} lg={6} md={6} sm={6}>
+                <div className={classes.input}>
+                  <div>
+                    <label for="family-name">:نام خانوادگی</label>
+                  </div>
+                  <TextField
+                    onChange={(e) => channgInputHandler(e, "familyName")}
+                    value={familyName}
+                    className={classes.textField}
+                    id="family-name"
+                    variant="outlined"
+                  />
+                </div>
+              </Grid>
 
-            <UserLayout>
-                <form onSubmit={submitHandler} >
-                    <div className={classes.container}>
-                        <Grid xs={2} xl={6} lg={6} md={6} sm={6}>
-                            <div className={classes.input}>
-                                <div>
-                                    <label for="family-name">:نام خانوادگی</label>
-                                </div>
-                                <TextField  onChange={e=>channgInputHandler(e, 'familyName')} value={familyName} className={classes.textField} id="family-name" variant="outlined" />
-                            </div>
-                        </Grid>
+              <Grid xs={2} xl={6} lg={6} md={6} sm={6}>
+                <div className={classes.input}>
+                  <div>
+                    <label for="name">:نام</label>
+                  </div>
+                  <TextField
+                    onChange={(e) => channgInputHandler(e, "name")}
+                    value={name}
+                    className={classes.textField}
+                    id="name"
+                    variant="outlined"
+                  />
+                </div>
+              </Grid>
 
-                        <Grid xs={2} xl={6} lg={6} md={6} sm={6}>
-                            <div className={classes.input}>
-                                <div>
-                                    <label for="name">:نام</label>
-                                </div>
-                                <TextField  onChange={e=>channgInputHandler(e, 'name')} value={name} className={classes.textField} id="name" variant="outlined" />
-                            </div>
-                        </Grid>
+              <Grid xs={2} xl={6} lg={6} md={6} sm={6}>
+                <div className={classes.input}>
+                  <div>
+                    <label for="phone">:تلفن همراه</label>
+                  </div>
+                  <TextField
+                    onBlur={(e) => changePhoneHandler(e, "phone")}
+                    onChange={(e) => channgInputHandler(e, "phone")}
+                    type="number"
+                    value={phone}
+                    className={classes.textField}
+                    id="phone"
+                    variant="outlined"
+                  />
+                </div>
+              </Grid>
 
-                        <Grid xs={2} xl={6} lg={6} md={6} sm={6}>
-                            <div className={classes.input}>
-                                <div>
-                                    <label for="phone">:تلفن همراه</label>
-                                </div>
-                                <TextField onBlur={e=>changePhoneHandler(e,"phone")}  onChange={e=>channgInputHandler(e, 'phone')} type="number" value={phone} className={classes.textField} id="phone" variant="outlined" />
-                            </div>
-                        </Grid>
+              <Grid xs={2} xl={6} lg={6} md={6} sm={6}>
+                <div className={classes.input}>
+                  <div>
+                    <label for="address">:آدرس</label>
+                  </div>
+                  <TextField
+                    onChange={(e) => channgInputHandler(e, "address")}
+                    value={address}
+                    className={classes.textField}
+                    id="address"
+                    variant="outlined"
+                  />
+                </div>
+              </Grid>
 
-                        <Grid xs={2} xl={6} lg={6} md={6} sm={6}>
-                            <div className={classes.input}>
-                                <div>
-                                    <label for="address">:آدرس</label>
-                                </div>
-                                <TextField onChange={e=>channgInputHandler(e, 'address')} value={address} className={classes.textField} id="address" variant="outlined" />
-                            </div>
-                        </Grid>
+              <Grid xs={2} xl={6} lg={6} md={6} sm={6}>
+                <div className={classes.input}>
+                  <div>
+                    <label for="time">:زمان تحویل</label>
+                  </div>
+                  <DatePicker
+                    timePicker={false}
+                    className={classes.dateInput}
+                    onClickSubmitButton={setDeliveryTime}
+                  />
+                </div>
+              </Grid>
+            </div>
 
-                        <Grid xs={2} xl={6} lg={6} md={6} sm={6}>
-                            <div className={classes.input}>
-                                <div>
-                                    <label for="time" >:زمان تحویل</label>
-                                </div>
-                                <DatePicker timePicker={false} className={classes.dateInput}
-                                            onClickSubmitButton={setDeliveryTime}
-                                />
-                            </div>
-                        </Grid>
-
-                    </div>
-
-                    <div className={classes.buttonContainer}>
-                        <button className={classes.payButton}>پرداخت</button>
-                    </div>
-                </form>
-
-            </UserLayout>
-        </>
-    )
+            <div className={classes.buttonContainer}>
+              <button className={classes.payButton}>پرداخت</button>
+            </div>
+          </form>
+        </UserLayout>
+      </>
+    );
 }
 
 const mapStateToProps = (state)=>({userCart:cartSelector(state)})

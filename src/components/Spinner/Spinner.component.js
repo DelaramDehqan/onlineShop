@@ -1,4 +1,4 @@
-import classes from "./Spinner.module.scss"
+import classes from "./Spinner.module.scss";
 
 const Spinner = ({isLoading, content}) =>{
     const spinnerPartStyle = { backgroundColor: 'var(--tea-green)' }

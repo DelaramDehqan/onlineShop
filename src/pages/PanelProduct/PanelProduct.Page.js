@@ -6,9 +6,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { toast } from 'react-toastify';
 import {Typography, Button, Grid} from "@material-ui/core"
 import 'react-toastify/dist/ReactToastify.css';
-import {AdminLayout} from "../../layout";
-import {deleteProduct } from "../../api/products.api"
-import {fetchProducts} from '../../redux/actions/product.action';
+import {AdminLayout} from "layout";
+import {deleteProduct } from "api/products.api"
+import {fetchProducts} from 'redux/actions/product.action';
 import {ProductsTable, ProductModal} from "./components/index"
 
 const useStyles = makeStyles({
@@ -53,8 +53,32 @@ const PanelProductPage  = (props) => {
                         <div style={{backgroundColor:'white' ,borderRadius:'0.5rem' , marginTop:'-5rem', padding:'2rem 4rem',marginLeft:'-10rem' , display:'flex',flexDirection:'column' , gap:'2rem' }}>
                             <h1 style={{fontSize:'2rem'}}> {message} </h1>
                             <div style={{display:'flex', justifyContent:'space-between' , direction:'rtl'}}>
-                                <button style={{backgroundColor:'green',padding:'0.5rem 1rem' , outline:'none' , border:'none' , color:'white'  , width:'45%' , borderRadius:'0.5rem' , cursor:'pointer'}} onClick={onConfirm}> بله </button>
-                                <button style={{backgroundColor:'red',padding:'0.5rem 1rem' , outline:'none' , border:'none' , color:'white' , width:'45%'  , borderRadius:'0.5rem' , cursor:'pointer'}} onClick={onCancel}> خیر </button>
+                        <button style={
+                          {
+                            backgroundColor: 'green',
+                            padding: '0.5rem 1rem',
+                            outline: 'none',
+                            border: 'none',
+                            color: 'white',
+                            width: '45%',
+                            borderRadius: '0.5rem',
+                            cursor: 'pointer'
+                          } } onClick={ onConfirm }>
+                          بله
+                        </button>
+                        <button style={
+                          {
+                            backgroundColor: 'red',
+                            padding: '0.5rem 1rem',
+                            outline: 'none',
+                            border: 'none',
+                            color: 'white',
+                            width: '45%',
+                            borderRadius: '0.5rem',
+                            cursor: 'pointer'
+                          } } onClick={ onCancel }>
+                          خیر
+                        </button>
 
                             </div>
                         </div>
@@ -120,4 +144,4 @@ const mapDispatchToProps = (dispatch) => {
 
 const PanelProduct = connect(undefined, mapDispatchToProps)(PanelProductPage)
 
-export {PanelProduct}
+export { PanelProduct };

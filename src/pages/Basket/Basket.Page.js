@@ -1,20 +1,33 @@
+//package
 import React from 'react';
-import {confirm} from "react-confirm-box";
-import {connect} from "react-redux"
-import {Helmet} from "react-helmet";
-import {Link} from "react-router-dom"
-import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core'
-import { cartSelector } from "../../redux/selects/user.select"
-import {e2p} from "../../utils/LanguageNumberConvertor.utils"
-import {getProductWithId} from "../../api/products.api"
-import {numberWithCommas} from "../../utils/numberWithCommas.utils"
-import {PATHS} from '../../configs/routes.config'
-import {removeFromCart} from "../../redux/actions/card.action"
-import { ToastContainer, toast } from 'react-toastify';
-import {UserLayout} from "../../layout";
+import { Helmet } from "react-helmet";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { confirm } from "react-confirm-box";
+import { makeStyles } from "@material-ui/core/styles";
+import { ToastContainer, toast } from "react-toastify";
+import {
+  Typography,
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@material-ui/core";
 
+//components
+import { UserLayout } from "layout";
+import { PATHS } from "configs/routes.config";
+import { getProductWithId } from "api/products.api";
+import { cartSelector } from "redux/selects/user.select";
+import { e2p } from "utils/LanguageNumberConvertor.utils";
+import { removeFromCart } from "redux/actions/card.action";
+import { numberWithCommas } from "utils/numberWithCommas.utils";
 
+//style
 const styles = makeStyles({
   table: {
     minWidth: 650,
@@ -25,6 +38,7 @@ const styles = makeStyles({
   title: {
     margin: "40px 0",
     textAlign: "right",
+    fontFamily: "AMitra",
   },
   cartInfo: {
     display: "flex",
@@ -56,6 +70,7 @@ const styles = makeStyles({
   },
   tableHeaders: {
     color: "var(--russian-violet)",
+    fontFamily: "AMitra",
   },
   cartPrice: {
     display: "flex",
@@ -134,56 +149,132 @@ const basketPage = (props) => {
     }
 
     return (
-        <>
-            <Helmet>
-                <title>سبد خرید</title>
-            </Helmet>
-            <UserLayout>
-
-                <Grid item lg={8} md={10} sm ={10} xs={10} className={classes.container}>
-                    <Typography variant="h4" component="p" className={classes.title}>سبد خرید</Typography>
-                    { props.userCart.length<1 ? <Typography dir="rtl" variant="h5" component="p" lassName={classes.title}>شما هنوز محصولی به سبد خرید خود اضافه نکرده اید.</Typography> : <>
-                        <TableContainer component={Paper}>
-                            <Table className={classes.table} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell className={classes.tableHeaders}></TableCell>
-                                        <TableCell align="right">تعداد &times; قیمت</TableCell>
-                                        <TableCell className={classes.tableHeaders} align="right">تعداد</TableCell>
-                                        <TableCell className={classes.tableHeaders} align="right">قیمت</TableCell>
-                                        <TableCell className={classes.tableHeaders} align="right">کالا</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {props.userCart.map((row, index) => (
-                                        <TableRow style={{backgroundColor:index%2===0?'whitesmoke':'var(--light-face)'}} key={row.id}>
-                                            <TableCell component="th" scope="row">
-                                                <button className={classes.deleteButton} onClick={(event)=>removeFromcartButtonClickHandler(event, row)}>حذف</button>
-                                            </TableCell>
-                                            <TableCell align="right">{e2p(numberWithCommas('' + row.allPrice))}</TableCell>
-                                            <TableCell align="right">{e2p(numberWithCommas('' + row.count))}</TableCell>
-                                            <TableCell align="right">{e2p(numberWithCommas('' + row.price))}</TableCell>
-                                            <TableCell align="right">
-                                                <Link className={classes.productLink} to={`/product/${row.id}`}>{row.name}</Link>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        <div className={classes.cartInfo}>
-                            <Link className={classes.buyButton} to={PATHS.CHECKOUT} onClick={finalizeCart}>نهایی کردن سبد خرید</Link>
-                            <div className={classes.cartPrice}>
-                                <p className={classes.cartPriceTypography}>جمع:</p>
-                                <div className={classes.cartPriceCost}>{e2p(numberWithCommas(props.userCart.reduce((acc, cv) => acc + +cv.allPrice  , 0)))}</div><span>تومان</span>
-                            </div>
-                        </div></> }
-
-                </Grid>
-                <ToastContainer />
-            </UserLayout>
-        </>
-    )
+      <>
+        <Helmet>
+          <title>سبد خرید 💳</title>
+        </Helmet>
+        <UserLayout>
+          <Grid
+            item
+            lg={8}
+            md={10}
+            sm={10}
+            xs={10}
+            className={classes.container}
+          >
+            <Typography variant="h1" component="p" className={classes.title}>
+              سبد خرید
+            </Typography>
+            {props.userCart.length < 1 ? (
+              <Typography
+                dir="rtl"
+                variant="h5"
+                component="p"
+                lassName={classes.title}
+              >
+                شما هنوز محصولی به سبد خرید خود اضافه نکرده اید.
+              </Typography>
+            ) : (
+              <>
+                <TableContainer component={Paper}>
+                  <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell className={classes.tableHeaders}></TableCell>
+                        <TableCell align="right">تعداد &times; قیمت</TableCell>
+                        <TableCell
+                          className={classes.tableHeaders}
+                          align="right"
+                        >
+                          تعداد
+                        </TableCell>
+                        <TableCell
+                          className={classes.tableHeaders}
+                          align="right"
+                        >
+                          قیمت
+                        </TableCell>
+                        <TableCell
+                          className={classes.tableHeaders}
+                          align="right"
+                        >
+                          کالا
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {props.userCart.map((row, index) => (
+                        <TableRow
+                          style={{
+                            backgroundColor:
+                              index % 2 === 0
+                                ? "whitesmoke"
+                                : "var(--light-face)",
+                          }}
+                          key={row.id}
+                        >
+                          <TableCell component="th" scope="row">
+                            <button
+                              className={classes.deleteButton}
+                              onClick={(event) =>
+                                removeFromcartButtonClickHandler(event, row)
+                              }
+                            >
+                              حذف
+                            </button>
+                          </TableCell>
+                          <TableCell align="right">
+                            {e2p(numberWithCommas("" + row.allPrice))}
+                          </TableCell>
+                          <TableCell align="right">
+                            {e2p(numberWithCommas("" + row.count))}
+                          </TableCell>
+                          <TableCell align="right">
+                            {e2p(numberWithCommas("" + row.price))}
+                          </TableCell>
+                          <TableCell align="right">
+                            <Link
+                              className={classes.productLink}
+                              to={`/product/${row.id}`}
+                            >
+                              {row.name}
+                            </Link>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <div className={classes.cartInfo}>
+                  <Link
+                    className={classes.buyButton}
+                    to={PATHS.CHECKOUT}
+                    onClick={finalizeCart}
+                  >
+                    نهایی کردن سبد خرید
+                  </Link>
+                  <div className={classes.cartPrice}>
+                    <p className={classes.cartPriceTypography}>جمع:</p>
+                    <div className={classes.cartPriceCost}>
+                      {e2p(
+                        numberWithCommas(
+                          props.userCart.reduce(
+                            (acc, cv) => acc + +cv.allPrice,
+                            0
+                          )
+                        )
+                      )}
+                    </div>
+                    <span>تومــان</span>
+                  </div>
+                </div>
+              </>
+            )}
+          </Grid>
+          <ToastContainer />
+        </UserLayout>
+      </>
+    );
 }
 
 const mapStateToProps = (state) => ({userCart:cartSelector(state)})

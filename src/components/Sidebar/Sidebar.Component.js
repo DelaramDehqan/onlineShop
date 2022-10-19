@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -42,15 +42,43 @@ const Sidebar = (props) => {
             {
                 props.groups.map(group=>{
                     const {groupId:id, products, group:name} = group
-                    return <article className={classes.groupCategory} key={id}>
-                        <h4 className={classes.groupTitle}><a style={{fontSize:'1.5rem' , color:'black'}} className={classes.groupCategoryLink} href={`/products/group/${id}/${name.trim().replaceAll(' ', '-')}`}>{group.group}</a></h4>
-                        {products.map(prod=>{
-                            const {name, id:prodId} = prod
-                            return (<p className={classes.subGroupTitle} key={prodId}>
-                                <a className={classes.groupTitleLink} href={`/product/${prodId}`}>{name}</a>
-                            </p>)
+                    return (
+                      <article className={classes.groupCategory} key={id}>
+                        <h4 className={classes.groupTitle}>
+                          <a
+                            style={{
+                              fontFamily: "AMitra",
+                              fontSize: "2.4rem",
+                              color: "black",
+                            }}
+                            className={classes.groupCategoryLink}
+                            href={`/products/group/${id}/${name
+                              .trim()
+                              .replaceAll(" ", "-")}`}
+                          >
+                            {group.group} • 
+                          </a>
+                        </h4>
+                        {products.map((prod) => {
+                          const { name, id: prodId } = prod;
+                          return (
+                            <p className={classes.subGroupTitle} key={prodId}>
+                              <a
+                                className={classes.groupTitleLink}
+                                style={{
+                                  fontFamily: "AMitra",
+                                  fontSize: "1.6rem",
+                                  color: "black",
+                                }}
+                                href={`/product/${prodId}`}
+                              >
+                                {name}
+                              </a>
+                            </p>
+                          );
                         })}
-                    </article>
+                      </article>
+                    );
                 })
             }
         </section>

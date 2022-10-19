@@ -14,7 +14,7 @@ import {patchOrder} from "../../api/orders.api"
 import {LINKS} from "../../layout/UserLayout/components/Header/Header.config";
 import {Navigation} from "../../components";
 import {PATHS} from "../../configs/routes.config"
-
+import logo from "assets/logo.png"
 const useStyles = makeStyles((theme) => ({
   appbar: {
     marginBottom: "10rem",
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   toolbar: {
     display: "flex",
     justifyContent: "space-between",
-    backgroundColor: "#47d147",
+    backgroundColor: " #1a1a1a",
     flexWrap: "wrap",
   },
   rightSide: {
@@ -126,10 +126,10 @@ const PaymentSuccess = (props) =>{
             <AppBar className={classes.appbar}>
                 <Toolbar className={classes.toolbar}>
                     <div className={classes.rightSide}>
-                        <LocalMall className={classes.image} />
+                        <img src={logo} className={classes.image} />
                         <Link to={PATHS.HOME}>
                             <Typography className={classes.title} variant="h6" noWrap>
-                                فروشگاه فلان
+                                کیک کـــافه
                             </Typography>
                         </Link>
                     </div>

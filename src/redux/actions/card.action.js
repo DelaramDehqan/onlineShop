@@ -1,4 +1,4 @@
-import UserActionTypes from "../types/user.types"
+import UserActionTypes from "../types/user.types";
 
 const addToCart = (product, count) => ({
     type:UserActionTypes.ADD_TO_CART,

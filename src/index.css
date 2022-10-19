@@ -9,12 +9,12 @@ body {
   background: #c9ffbf; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
-    #AA6E6D,
+    #b58483,
     #c9ffbf
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to right,
-    #AA6E6D,
+    #b28180,
     #c9ffbf
   )
 }
@@ -35,7 +35,7 @@ code {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #AA6E6D;
+  background-color: #a07776;
   border-radius: 50px;
   width: 9px;
 }

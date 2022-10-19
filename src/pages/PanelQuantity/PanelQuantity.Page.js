@@ -3,8 +3,8 @@ import {Helmet} from 'react-helmet'
 import { makeStyles } from '@material-ui/core/styles';
 import {toast} from "react-toastify";
 import {Typography, Button, Grid} from "@material-ui/core"
-import {AdminLayout} from "../../layout";
-import {patchProduct} from "../../api/products.api";
+import {AdminLayout} from "layout";
+import {patchProduct} from "api/products.api";
 import {QuantityTable} from "./components/QuantityTable.Component"
 
 const useStyles = makeStyles({

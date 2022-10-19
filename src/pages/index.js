@@ -5,7 +5,7 @@ export {Home} from './Home/Home.Page'
 export {NotFound} from './NotFound/NotFound.Page'
 export {PanelLogin} from './PanelLogin/PanelLogin.Page'
 export {PanelOrders} from './PanelOrders/PanelOrders.Page'
-export {PanelProduct} from './PanelProduct/PanelProduct.Page'
+export { PanelProduct } from "./PanelProduct/PanelProduct.Page";
 export {PanelQuantity} from './PanelQuantity/PanelQuantity.Page'
 export {PaymentResult} from './PaymentResult/PaymentResult.Page'
 export {Product} from './Product/Product.Page'

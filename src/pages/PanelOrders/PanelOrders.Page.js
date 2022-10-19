@@ -4,11 +4,13 @@ import {Helmet} from 'react-helmet'
 import { makeStyles } from '@material-ui/core/styles';
 import { Modal,Typography, Grid, Radio, RadioGroup, FormControlLabel, FormControl, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@material-ui/core"
 import {Link} from "react-router-dom"
-import {AdminLayout} from "../../layout";
-import {e2p} from "../../utils/LanguageNumberConvertor.utils"
-import {numberWithCommas} from "../../utils/numberWithCommas.utils"
+import {AdminLayout} from "layout";
+import {e2p} from "utils/LanguageNumberConvertor.utils"
+import {numberWithCommas} from "utils/numberWithCommas.utils"
 import {OrdersTable} from "./components/OrderTable.Component"
-import {patchOrder} from "../../api/orders.api"
+import {patchOrder} from "api/orders.api"
+// import { connect } from "react-redux";
+// import { fetchProducts } from "redux/actions/product.action";
 
 const useStyles = makeStyles((theme)=>({
     container:{
@@ -100,131 +102,262 @@ const useStyles = makeStyles((theme)=>({
 }));
 
 const PanelOrders = (props) => {
-    const classes = useStyles();
-    const [filterProducts, setFilterProducts] = useState({doneFilter:null})
-    const [orderState, setOrder] = useState({item:{ name:'', familyName:'', address:'', phone:'', cost:'', deliveryDoneTime:'', deliveryRequestTime:'', products:[{}]}})
+  const classes = useStyles();
+  const [filterProducts, setFilterProducts] = useState({ doneFilter: null });
+  const [orderState, setOrder] = useState({
+    item: {
+      name: "",
+      familyName: "",
+      address: "",
+      phone: "",
+      cost: "",
+      deliveryDoneTime: "",
+      deliveryRequestTime: "",
+      products: [{}],
+    },
+  });
 
-    const handleChange = ({target})=>{
-        setFilterProducts({doneFilter:target.value})
-    }
+  const handleChange = ({ target }) => {
+    setFilterProducts({ doneFilter: target.value });
+  };
 
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-    const handleOpen = async (order) => {
-        await setOrder({item:order})
-        setOpen(true);
-    };
+  const handleOpen = async (order) => {
+    await setOrder({ item: order });
+    setOpen(true);
+  };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    useEffect(()=>{
-        const { name, familyName, address, phone, cost } = orderState.item;
-    }, [orderState])
+  useEffect(() => {
+    const { name, familyName, address, phone, cost } = orderState.item;
+  }, [orderState]);
 
-    const deliveryButtonHandler = async (e , orderId) => {
-        await patchOrder({ deliveryDoneTime: + new Date().getTime(), delivered:true },orderId)
-        window.location.reload()
-    }
-
-    const { name, familyName, address, phone, cost, deliveryDoneTime, deliveryRequestTime, createdAt } = orderState.item;
-    const body = (
-        <div className={classes.paper}>
-            <div className={classes.modalHeader}>
-                <button className={classes.modalButtonClose} onClick={handleClose}><CloseIcon style={{color:'#fff'}} /></button>
-                <Typography>نمایش سفارش</Typography>
-            </div>
-            <div className={classes.modalBody}>
-                <div className={classes.modalBodyItem}>
-                    <Typography dir="rtl" variant="p" component="p" className={classes.modalDescriptionTitle} >نام مشتری:</Typography>
-                    <Typography dir="rtl" className={classes.modalDescriptionTypo}>{`${name} ${familyName}`}</Typography>
-                </div>
-
-                <div className={classes.modalBodyItem}>
-                    <Typography dir="rtl" variant="p" component="p" className={classes.modalDescriptionTitle} >آدرس:</Typography>
-                    <Typography dir="rtl" className={classes.modalDescriptionTypo}>{address}</Typography>
-                </div>
-
-                <div className={classes.modalBodyItem}>
-                    <Typography dir="rtl" variant="p" component="p" className={classes.modalDescriptionTitle} >تلفن:</Typography>
-                    <Typography dir="rtl" className={classes.modalDescriptionTypo}>{e2p(''+phone)}</Typography>
-                </div>
-
-                <div className={classes.modalBodyItem}>
-                    <Typography dir="rtl" variant="p" component="p" className={classes.modalDescriptionTitle} >زمان تحویل:</Typography>
-                    <Typography dir="rtl" className={classes.modalDescriptionTypo}>{deliveryDoneTime ? new Date(deliveryDoneTime).toLocaleString('fa-IR') : "تحویل داده نشده."}</Typography>
-                </div>
-
-                <div className={classes.modalBodyItem}>
-                    <Typography dir="rtl" variant="p" component="p" className={classes.modalDescriptionTitle} >زمان ثبت سفارش:</Typography>
-                    <Typography dir="rtl" className={classes.modalDescriptionTypo}>{new Date(createdAt).toLocaleString('fa-IR')}</Typography>
-                </div>
-
-                <TableContainer  className={classes.tableContainer} component={Paper}>
-                    <Table className={classes.table} aria-label="simple table">
-                        <TableHead>
-                            <TableRow style={{background:'var(--light-face)'}}>
-                                <TableCell align="right">تعداد &times; قیمت</TableCell>
-                                <TableCell className={classes.tableHeaders} align="right">تعداد</TableCell>
-                                <TableCell className={classes.tableHeaders} align="right">قیمت</TableCell>
-                                <TableCell className={classes.tableHeaders} align="right">کالا</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {orderState.item.products.map((row, index) => (
-                                <TableRow style={{backgroundColor:index%2===0?'whitesmoke':'var(--light-face)'}} key={row.id}>
-                                    <TableCell align="right">{e2p(numberWithCommas('' + row.allPrice))}</TableCell>
-                                    <TableCell align="right">{e2p(numberWithCommas('' + row.count))}</TableCell>
-                                    <TableCell align="right">{e2p(numberWithCommas('' + row.price))}</TableCell>
-                                    <TableCell align="right">
-                                        <Link className={classes.productLink} to={`/product/${row.id}`}>{row.name}</Link>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                { !orderState.item.delivered ? (<button className={classes.deliveryButton} onClick={event => deliveryButtonHandler(event , orderState.item.id)}>
-                    تحویل شد
-                </button>) : <p dir="rtl"> زمان تحویل: {new Date(+deliveryDoneTime).toLocaleString('fa-IR')}</p>
-                }
-            </div>
-        </div>
+  const deliveryButtonHandler = async (e, orderId) => {
+    await patchOrder(
+      { deliveryDoneTime: +new Date().getTime(), delivered: true },
+      orderId
     );
+    window.location.reload();
+  };
 
-    return (
-        <>
-            <Helmet>
-                <title>پنل موجودی ها</title>
-            </Helmet>
-            <AdminLayout>
-                <Grid item lg={8} md={10} sm ={10} xs={10} className={classes.container}>
-                    <FormControl component="div">
-                        <form>
-                            <RadioGroup name="status" className={classes.radioContainer} onChange={handleChange}>
-                                <FormControlLabel value="false" control={<Radio color="primary" name="status"/>} label="سفارش های در انتظار" />
-                                <FormControlLabel value="true" control={<Radio color="primary" name="status"/>} label="سفارش های تحویل شده" />
-                            </RadioGroup>
-                        </form>
-                    </FormControl>
-                    <Typography variant="h5" component="p">مدیریت سفارش ها</Typography>
-                </Grid>
+  const {
+    name,
+    familyName,
+    address,
+    phone,
+    cost,
+    deliveryDoneTime,
+    deliveryRequestTime,
+    createdAt,
+  } = orderState.item;
+  const body = (
+    <div className={classes.paper}>
+      <div className={classes.modalHeader}>
+        <button className={classes.modalButtonClose} onClick={handleClose}>
+          <CloseIcon style={{ color: "#fff" }} />
+        </button>
+        <Typography>نمایش سفارش</Typography>
+      </div>
+      <div className={classes.modalBody}>
+        <div className={classes.modalBodyItem}>
+          <Typography
+            dir="rtl"
+            variant="p"
+            component="p"
+            className={classes.modalDescriptionTitle}
+          >
+            نام مشتری:
+          </Typography>
+          <Typography
+            dir="rtl"
+            className={classes.modalDescriptionTypo}
+          >{`${name} ${familyName}`}</Typography>
+        </div>
 
-                <OrdersTable filterProducts={filterProducts} modalHandleOpen={handleOpen}/>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
+        <div className={classes.modalBodyItem}>
+          <Typography
+            dir="rtl"
+            variant="p"
+            component="p"
+            className={classes.modalDescriptionTitle}
+          >
+            آدرس:
+          </Typography>
+          <Typography dir="rtl" className={classes.modalDescriptionTypo}>
+            {address}
+          </Typography>
+        </div>
+
+        <div className={classes.modalBodyItem}>
+          <Typography
+            dir="rtl"
+            variant="p"
+            component="p"
+            className={classes.modalDescriptionTitle}
+          >
+            تلفن:
+          </Typography>
+          <Typography dir="rtl" className={classes.modalDescriptionTypo}>
+            {e2p("" + phone)}
+          </Typography>
+        </div>
+
+        <div className={classes.modalBodyItem}>
+          <Typography
+            dir="rtl"
+            variant="p"
+            component="p"
+            className={classes.modalDescriptionTitle}
+          >
+            زمان تحویل:
+          </Typography>
+          <Typography dir="rtl" className={classes.modalDescriptionTypo}>
+            {deliveryDoneTime
+              ? new Date(deliveryDoneTime).toLocaleString("fa-IR")
+              : "تحویل داده نشده."}
+          </Typography>
+        </div>
+
+        <div className={classes.modalBodyItem}>
+          <Typography
+            dir="rtl"
+            variant="p"
+            component="p"
+            className={classes.modalDescriptionTitle}
+          >
+            زمان ثبت سفارش:
+          </Typography>
+          <Typography dir="rtl" className={classes.modalDescriptionTypo}>
+            {new Date(createdAt).toLocaleString("fa-IR")}
+          </Typography>
+        </div>
+
+        <TableContainer className={classes.tableContainer} component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow style={{ background: "var(--light-face)" }}>
+                <TableCell align="right">تعداد &times; قیمت</TableCell>
+                <TableCell className={classes.tableHeaders} align="right">
+                  تعداد
+                </TableCell>
+                <TableCell className={classes.tableHeaders} align="right">
+                  قیمت
+                </TableCell>
+                <TableCell className={classes.tableHeaders} align="right">
+                  کالا
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {orderState.item.products.map((row, index) => (
+                <TableRow
+                  style={{
+                    backgroundColor:
+                      index % 2 === 0 ? "whitesmoke" : "var(--light-face)",
+                  }}
+                  key={row.id}
                 >
-                    {body}
-                </Modal>
+                  <TableCell align="right">
+                    {e2p(numberWithCommas("" + row.allPrice))}
+                  </TableCell>
+                  <TableCell align="right">
+                    {e2p(numberWithCommas("" + row.count))}
+                  </TableCell>
+                  <TableCell align="right">
+                    {e2p(numberWithCommas("" + row.price))}
+                  </TableCell>
+                  <TableCell align="right">
+                    <Link
+                      className={classes.productLink}
+                      to={`/product/${row.id}`}
+                    >
+                      {row.name}
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        {!orderState.item.delivered ? (
+          <button
+            className={classes.deliveryButton}
+            onClick={(event) =>
+              deliveryButtonHandler(event, orderState.item.id)
+            }
+          >
+            تحویل شد
+          </button>
+        ) : (
+          <p dir="rtl">
+            {" "}
+            زمان تحویل: {new Date(+deliveryDoneTime).toLocaleString("fa-IR")}
+          </p>
+        )}
+      </div>
+    </div>
+  );
 
-            </AdminLayout>
-        </>
+  return (
+    <>
+      <Helmet>
+        <title>پنل موجودی ها</title>
+      </Helmet>
+      <AdminLayout>
+        <Grid item lg={8} md={10} sm={10} xs={10} className={classes.container}>
+          <FormControl component="div">
+            <form>
+              <RadioGroup
+                name="status"
+                className={classes.radioContainer}
+                onChange={handleChange}
+              >
+                <FormControlLabel
+                  value="false"
+                  control={<Radio color="primary" name="status" />}
+                  label="سفارش های در انتظار"
+                />
+                <FormControlLabel
+                  value="true"
+                  control={<Radio color="primary" name="status" />}
+                  label="سفارش های تحویل شده"
+                />
+              </RadioGroup>
+            </form>
+          </FormControl>
+          <Typography variant="h5" component="p">
+            مدیریت سفارش ها
+          </Typography>
+        </Grid>
 
-    )
-}
+        <OrdersTable
+          filterProducts={filterProducts}
+          modalHandleOpen={handleOpen}
+        />
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          {body}
+        </Modal>
+      </AdminLayout>
+    </>
+  );
+};
 
+
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     getOrders: () => dispatch(fetchProducts()),
+//   };
+// };
+
+// const PanelOrders = connect(undefined, mapDispatchToProps)(PanelOrderPage);
 export {PanelOrders}
