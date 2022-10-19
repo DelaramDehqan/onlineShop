@@ -2,7 +2,11 @@
 
 It's my personal online shop, that we can see some screenshot from some pages:
 
-![home](https://user-images.githubusercontent.com/103545728/196700750-947ae8e7-5619-46a5-8f70-87c297d88243.jpg)
+![home](https://user-images.githubusercontent.com/103545728/196705599-8299d1cc-992b-4b9c-8995-1f921a163e69.jpg)
+
+![2](https://user-images.githubusercontent.com/103545728/196705657-61df3b3b-5ef3-4942-857b-79ca51e56f8e.jpg)
+
+![3](https://user-images.githubusercontent.com/103545728/196706001-06b79f86-95b3-4c1e-b2db-bc09a68a5504.jpg)
 
 ![adding](https://user-images.githubusercontent.com/103545728/196700819-73a960ef-e997-45b4-bbeb-30454a1657a1.jpg)
 
